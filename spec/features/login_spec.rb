@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Logging In" do
   it "can log in with valid credentials" do
-    user = User.create(name: "NicoShantii", email: "email123@yahoo.com", password: "noneyourbusiness", password_confirmation: "noneyourbusiness")
+    user = User.create(name: "NicoShantii", email: "Email123@yahoo.com", password: "noneyourbusiness", password_confirmation: "noneyourbusiness")
 
     visit root_path
     expect(page).to have_link("Log In", href: "/login")
@@ -21,7 +21,7 @@ RSpec.describe "Logging In" do
   end
 
   it "cannot log in with bad credentials" do
-    user = User.create(name: "NicoShantii", email: "email123@yahoo.com", password: "noneyourbusiness", password_confirmation: "noneyourbusiness")
+    user = User.create(name: "NicoShantii", email: "EMAIL123@yahoo.com", password: "noneyourbusiness", password_confirmation: "noneyourbusiness")
     
     visit root_path
     

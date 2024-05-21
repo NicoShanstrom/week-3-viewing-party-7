@@ -1,10 +1,7 @@
 class UsersController <ApplicationController 
-  def index
-    @users = User.all
-  end
 
   def new 
-    @user = User.new()
+    @user = User.new
   end 
 
   def show 
@@ -12,12 +9,15 @@ class UsersController <ApplicationController
   end 
 
   def create 
-    user = User.create(user_params)
-    if user.save
-      flash[:success] = "Welcome, #{user.name}!"
-      redirect_to user_path(user)
+    user = user_params
+    user[:email] = user[:email].downcase
+    new_user = User.create(user_params)
+    if new_user.save
+      session[:user_id] = new_user.id
+      flash[:success] = "Welcome, #{new_user.name}!"
+      redirect_to user_path(new_user)
     else  
-      flash[:error] = user.errors.full_messages.to_sentence
+      flash[:error] = new_user.errors.full_messages.to_sentence
       redirect_to register_path
     end 
   end
@@ -28,6 +28,7 @@ class UsersController <ApplicationController
   def login
     user = User.find_by(email: params[:email])
     if user.authenticate(params[:password])
+      session[:user_id] = user.id
       flash[:success] = "Welcome, #{user.name}!"
       redirect_to user_path(user)
     else
