@@ -5,4 +5,6 @@ class User <ApplicationRecord
   has_many :viewing_parties
 
   has_secure_password
+
+  enum role: %w(default manager admin) #shorthand for an array of string values
 end 
