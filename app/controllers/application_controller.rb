@@ -1,5 +1,5 @@
 class ApplicationController < ActionController::Base
-  helper_method :current_user
+  helper_method :current_user, :successful_logout_redirect
 
   def current_user
     @logged_in_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -7,6 +7,10 @@ class ApplicationController < ActionController::Base
 
   def current_admin?
     current_user && current_user.admin?
+  end
+
+  def successful_logout_redirect
+    redirect_to root_url, notice: "You have successfully logged out."
   end
 end
 # so if @logged_in_user is nil, then it goes to user.find... IF a user_id session has initiated,

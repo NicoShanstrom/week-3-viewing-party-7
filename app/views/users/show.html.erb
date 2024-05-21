@@ -1,12 +1,18 @@
 <h2><%= @user.name %>'s Dashboard</h2>
-
+<p>
+<h3> Location: <%= cookies.encrypted[:location] %></h3>
+</p>
+<p>
 <%= button_to "Find Top Rated Movies", movies_path(@user), method: :get %><br>
-
+</p>
 <h3>Viewing Parties:</h3>
 
 <% @user.viewing_parties.each do |vp| %>
+  <div>
     Title: <%= vp.movie.title %>
     Duration: <%= vp.duration %>
     Date: <%= vp.date %>
     Time: <%= vp.time %>
+  </div>
+  <br>
 <% end %>
