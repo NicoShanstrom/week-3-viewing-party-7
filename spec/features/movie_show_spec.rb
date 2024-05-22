@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe 'Movies Index Page' do
+RSpec.describe 'Movies Show Page' do
   before do 
     @user1 = User.create(name: "User One", email: "user1@test.com", password: "cool")
     i = 1
@@ -34,5 +34,5 @@ RSpec.describe 'Movies Index Page' do
     expect(page).to have_content(movie_1.title)
     expect(page).to have_content(movie_1.description)
     expect(page).to have_content(movie_1.rating)
-  end 
+  end
 end
