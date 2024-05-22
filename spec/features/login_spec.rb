@@ -40,7 +40,7 @@ RSpec.describe "Logging In" do
     expect(page).to have_content("Sorry, your credentials are bad.")
   end
 
-  it 'has a cookie location field on the login page and shows this cookie value on user_path(user)' do
+  it 'has a cookie location field on the login page, shows this cookie value on user_path(user), and keeps the value once a user logs out and back in' do
     user = User.create(name: "NicoShantii", email: "EMAIL123@yahoo.com", password: "noneyourbusiness", password_confirmation: "noneyourbusiness")
     
     visit login_path
@@ -61,5 +61,23 @@ RSpec.describe "Logging In" do
     visit login_path
    
     expect(find_field("location").value).to eq("Asheville, NC")
+  end
+
+  it 'Remembers a user upon successful log in/registration even if they leave the page and return' do
+    user = User.create(name: "NicoShantii", email: "EMAIL123@yahoo.com", password: "noneyourbusiness", password_confirmation: "noneyourbusiness")
+    visit login_path
+
+    fill_in :email, with: user.email
+    fill_in :password, with: user.password
+    fill_in :location, with: "Asheville, NC"
+
+    click_on "Log In"
+    expect(current_path).to eq(user_path(user))
+
+    visit "https://www.google.com"
+    
+    visit root_path
+    
+    expect(page).to have_link("Logout")
   end
 end
