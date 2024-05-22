@@ -1,4 +1,6 @@
-class WelcomeController < ApplicationController 
+class WelcomeController < ApplicationController
+skip_before_action :require_login
+
   def index 
     @users = User.all
     #plaintext cookie

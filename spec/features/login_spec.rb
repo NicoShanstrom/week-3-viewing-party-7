@@ -80,4 +80,24 @@ RSpec.describe "Logging In" do
     
     expect(page).to have_link("Logout")
   end
+
+  it "Has a list of existing users that are not links to their show pages as a logged in user" do
+    user = User.create(name: "NicoShantii", email: "Email123@yahoo.com", password: "noneyourbusiness", password_confirmation: "noneyourbusiness")
+    user2 = User.create(name: "Wolf", email: "Wolfie@yahoo.com", password: "truck", password_confirmation: "truck")
+
+    visit root_path
+    click_on "Log In"
+
+    fill_in :email, with: user.email
+    fill_in :password, with: user.password
+
+    click_on "Log In"
+    visit root_path
+    within '.existing-users' do
+      expect(page).to_not have_link(user.email)
+      expect(page).to_not have_link(user2.email)
+      expect(page).to have_content(user.email)
+      expect(page).to have_content(user2.email)
+    end
+  end
 end

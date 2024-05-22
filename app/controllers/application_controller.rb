@@ -1,5 +1,6 @@
 class ApplicationController < ActionController::Base
   helper_method :current_user, :successful_logout_redirect
+  before_action :require_login
 
   def current_user
     @logged_in_user ||= User.find(session[:user_id]) if session[:user_id]
@@ -12,6 +13,14 @@ class ApplicationController < ActionController::Base
   def successful_logout_redirect
     redirect_to root_url, notice: "You have successfully logged out."
   end
+
+  def require_login
+    unless current_user
+      flash[:error] = "You must be logged in or registered to access a user's dashboard"
+      redirect_back(fallback_location: root_path)
+    end
+  end
+
 end
 # so if @logged_in_user is nil, then it goes to user.find... IF a user_id session has initiated,
 # otherwise the whole expression is nil

@@ -1,4 +1,6 @@
 class SessionsController < ApplicationController
+  skip_before_action :require_login, only: [:new, :create]
+  
   def new
   end
 
@@ -10,7 +12,7 @@ class SessionsController < ApplicationController
 
       cookies.encrypted[:location] = { 
         value: params[:location],
-        expires: 1.week.from_now
+        expires: 3.months.from_now
       }
 
       if user.admin?
