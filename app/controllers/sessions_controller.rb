@@ -16,12 +16,14 @@ class SessionsController < ApplicationController
       }
 
       if user.admin?
-        redirect_to admin_dashboard_path and return
+        redirect_to admin_dashboard_path
       elsif user.manager?
-        redirect_to user_path(user) and return
+        redirect_to user_path(user)
       else
-        redirect_to user_path(user) and return
+        redirect_to user_path(user)
       end
+
+      return
     else
       flash[:error] = "Sorry, your credentials are bad."
       render :new
